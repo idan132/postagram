@@ -1,0 +1,14 @@
+###
+GET http://localhost:3000/post
+###
+POST http://localhost:3000/post
+Content-Type: application/json
+
+{
+    "message":"testing my new post",
+    "sender":"12345"
+}
+###
+GET http://localhost:3000/messages
+###
+POST http://locahost:3000/messages
