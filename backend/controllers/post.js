@@ -43,12 +43,10 @@ const updatePostById = async (req,res,next) =>{
 const addNewPost = async (req,res,next) =>{
     const message = req.body.message
     const sender = req.body.sender
-    const postId = req.body._id
 
     post = new Post({
         message : message,
-        sender : sender,
-        _id : postId
+        sender : sender
     })
 
     try{

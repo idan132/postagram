@@ -1,11 +1,26 @@
 ###
 GET http://localhost:3000/post
 ###
+GET http://localhost:3000/post/6
+###
+GET http://localhost:3000/post/26
+###
+GET http://localhost:3000/post?sender=idan
+###
 POST http://localhost:3000/post
 Content-Type: application/json
 
 {
-    "message":"testing my new post",
+    "message":"posting again",
+    "sender":"idan",
+    "_id":"9"
+}
+###
+PUT http://localhost:3000/post/1
+Content-Type: application/json
+
+{
+    "message":"this post is updated by idan",
     "sender":"12345"
 }
 ###

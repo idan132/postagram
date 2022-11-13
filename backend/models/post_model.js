@@ -8,10 +8,6 @@ const postSchema = new mongoose.Schema({
     sender:{
         type: String,
         required: true
-    },
-    _id:{
-        type: String,
-        required: false
     }
 })
 
