@@ -3,6 +3,7 @@ const request = require('supertest')
 const app = require('../server.js')
 const Post = require('../models/post_model')
 
+
 beforeAll (async () => {
     await Post.remove()
 }) 
@@ -15,6 +16,7 @@ afterAll (async ()=> {
 describe("Testing Postagram RESTful API", ()=> {
     const testMessage = "this is a test"
     const testSender = "111111"
+    const testEditMessage = "Edited"
 
     test("Test POST request to add new post",async()=>{
         const response = await request(app).post('/post').send({
