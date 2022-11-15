@@ -3,6 +3,7 @@ const request = require('supertest')
 const app = require('../server.js')
 const Post = require('../models/post_model')
 
+let postId = {}
 
 beforeAll (async () => {
     await Post.remove()
@@ -27,6 +28,14 @@ describe("Testing Postagram RESTful API", ()=> {
         const newPost = response.body.post
         expect(newPost.message).toEqual(testMessage)
         expect(newPost.sender).toEqual(testSender)
+        postId = newPost._id
+    })
+
+    test("Tests GET request to fetch post by ID", async ()=>{
+        const response = await request(app).get('/post/'+postId)
+        expect(response.statusCode).toEqual(200)
+        expect(response.body.message).toEqual(testMessage)
+        expect(response.body.sender).toEqual(testSender)
     })
 
     test("Tests GET request to fetch all posts", async ()=>{

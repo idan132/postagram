@@ -12,8 +12,7 @@ Content-Type: application/json
 
 {
     "message":"posting again",
-    "sender":"idan",
-    "_id":"9"
+    "sender":"idan"
 }
 ###
 PUT http://localhost:3000/post/1
