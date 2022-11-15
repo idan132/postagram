@@ -3,7 +3,8 @@ const request = require('supertest')
 const app = require('../server.js')
 const Post = require('../models/post_model')
 
-let postId = {}
+let postId = ''
+let postToUpdate = {}
 
 beforeAll (async () => {
     await Post.remove()
@@ -29,6 +30,7 @@ describe("Testing Postagram RESTful API", ()=> {
         expect(newPost.message).toEqual(testMessage)
         expect(newPost.sender).toEqual(testSender)
         postId = newPost._id
+        postToUpdate = newPost
     })
 
     test("Tests GET request to fetch post by ID", async ()=>{
@@ -50,6 +52,18 @@ describe("Testing Postagram RESTful API", ()=> {
         const response = await request(app).get('/post?sender='+testSender)
         expect(response.statusCode).toEqual(200)
         expect(response.body[0].sender).toEqual(testSender)
+    })
+
+    test("Tests PUT request to update an existing post by ID", async () => {
+        const response = await request(app).put('/post/'+postId).send({
+            "message": testEditMessage,
+            "sender": testSender
+        })
+        expect(response.statusCode).toEqual(200)
+        
+        const response2 = await request(app).get('/post/'+postId)
+        expect(response2.statusCode).toEqual(200)
+        expect(response2.body.message).toEqual(testEditMessage)
     })
 })
 
