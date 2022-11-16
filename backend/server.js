@@ -17,6 +17,7 @@ db.once('open', ()=>{console.log('Connected to mongo DB')})
 const postRouter = require('./routes/post_route.js')
 const messageRouter = require('./routes/message_route.js')
 
+app.use(express.static('public'))
 app.use('/post', postRouter)
 app.use('/messages', messageRouter)
 
