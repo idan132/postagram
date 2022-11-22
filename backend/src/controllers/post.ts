@@ -1,6 +1,6 @@
-const Post = require('../models/post_model.js')
+import Post from '../models/post_model'
 
-const getPosts = async (req,res,next) => {
+const getPosts = async (req,res) => {
     try{
         let posts = {}
         if(req.query.sender == null || req.query.sender == undefined){
@@ -18,7 +18,7 @@ const getPosts = async (req,res,next) => {
     }
 }
 
-const getPostById = async (req,res,next) => {
+const getPostById = async (req,res) => {
     try{
         const post = await Post.findById(req.params.id)
         res.status(200).send(post)
@@ -27,7 +27,7 @@ const getPostById = async (req,res,next) => {
     }
 }
 
-const updatePostById = async (req,res,next) =>{
+const updatePostById = async (req,res) =>{
     try{
         const post = await Post.findByIdAndUpdate(req.params.id, {
             message : req.body.message
@@ -40,17 +40,17 @@ const updatePostById = async (req,res,next) =>{
         res.status(400).send({"error":"Did not update"})
     }
 }
-const addNewPost = async (req,res,next) =>{
+const addNewPost = async (req,res) =>{
     const message = req.body.message
     const sender = req.body.sender
 
-    post = new Post({
+    const post = new Post({
         message : message,
         sender : sender
     })
 
     try{
-        newPost = await post.save()
+        const newPost = await post.save()
         console.log("Success! uploaded new post")
         res.status(200).send({
             "status":"ok",
@@ -62,4 +62,4 @@ const addNewPost = async (req,res,next) =>{
     }  
 }
 
-module.exports = {getPosts, addNewPost, getPostById, updatePostById}
+export = {getPosts, addNewPost, getPostById, updatePostById}

@@ -1,9 +1,10 @@
-const mongoose = require('mongoose')
-const request = require('supertest')
-const app = require('../server.js')
-const Post = require('../models/post_model')
+import mongoose from 'mongoose'
+import request from 'supertest'
+import app from '../server'
+import Post from '../models/post_model'
 
 let postId = ''
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 let postToUpdate = {}
 
 beforeAll (async () => {
