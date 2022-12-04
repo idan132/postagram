@@ -16,7 +16,7 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const supertest_1 = __importDefault(require("supertest"));
 const server_1 = __importDefault(require("../server"));
 const post_model_1 = __importDefault(require("../models/post_model"));
-let postId = '';
+let postId = "";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 let postToUpdate = {};
 beforeAll(() => __awaiter(void 0, void 0, void 0, function* () {
@@ -31,9 +31,9 @@ describe("Testing Postagram RESTful API", () => {
     const testSender = "111111";
     const testEditMessage = "Edited";
     test("Test POST request to add new post", () => __awaiter(void 0, void 0, void 0, function* () {
-        const response = yield (0, supertest_1.default)(server_1.default).post('/post').send({
-            "message": testMessage,
-            "sender": testSender
+        const response = yield (0, supertest_1.default)(server_1.default).post("/post").send({
+            message: testMessage,
+            sender: testSender,
         });
         expect(response.statusCode).toEqual(200);
         const newPost = response.body.post;
@@ -43,30 +43,36 @@ describe("Testing Postagram RESTful API", () => {
         postToUpdate = newPost;
     }));
     test("Tests GET request to fetch post by ID", () => __awaiter(void 0, void 0, void 0, function* () {
-        const response = yield (0, supertest_1.default)(server_1.default).get('/post/' + postId);
+        const response = yield (0, supertest_1.default)(server_1.default).get("/post/" + postId);
         expect(response.statusCode).toEqual(200);
         expect(response.body.message).toEqual(testMessage);
         expect(response.body.sender).toEqual(testSender);
     }));
+    test("Tests GET request to fetch post by wrong ID, should fail", () => __awaiter(void 0, void 0, void 0, function* () {
+        const response = yield (0, supertest_1.default)(server_1.default).get("/post/09090");
+        expect(response.body.message).toBeNull;
+    }));
     test("Tests GET request to fetch all posts", () => __awaiter(void 0, void 0, void 0, function* () {
-        const response = yield (0, supertest_1.default)(server_1.default).get('/post');
+        const response = yield (0, supertest_1.default)(server_1.default).get("/post");
         expect(response.statusCode).toEqual(200);
         expect(response.body[0].message).toEqual(testMessage);
         expect(response.body[0].sender).toEqual(testSender);
         expect(response.body[1]).toEqual(undefined);
     }));
     test("Tests GET request to fetch all posts of a sender", () => __awaiter(void 0, void 0, void 0, function* () {
-        const response = yield (0, supertest_1.default)(server_1.default).get('/post?sender=' + testSender);
+        const response = yield (0, supertest_1.default)(server_1.default).get("/post?sender=" + testSender);
         expect(response.statusCode).toEqual(200);
         expect(response.body[0].sender).toEqual(testSender);
     }));
     test("Tests PUT request to update an existing post by ID", () => __awaiter(void 0, void 0, void 0, function* () {
-        const response = yield (0, supertest_1.default)(server_1.default).put('/post/' + postId).send({
-            "message": testEditMessage,
-            "sender": testSender
+        const response = yield (0, supertest_1.default)(server_1.default)
+            .put("/post/" + postId)
+            .send({
+            message: testEditMessage,
+            sender: testSender,
         });
         expect(response.statusCode).toEqual(200);
-        const response2 = yield (0, supertest_1.default)(server_1.default).get('/post/' + postId);
+        const response2 = yield (0, supertest_1.default)(server_1.default).get("/post/" + postId);
         expect(response2.statusCode).toEqual(200);
         expect(response2.body.message).toEqual(testEditMessage);
     }));
